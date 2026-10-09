@@ -1,4 +1,4 @@
-//package com.mycompany.modelo;
+package com.example;
 
 public class UCCI {
     private String sector;
@@ -20,6 +20,7 @@ public class UCCI {
     }
 
     public boolean calculoCapacidadMaxima(double potenciaAux, double limitePotencia) {
+        // evaluar si "suma de la potencia requerida por el brazo y sus sistemas auxiliares excede la capacidad maxima de pontencia en vatios configurada por el controlador"
         return potenciaAux + brazo.calcularGastoEnergetico() <= limitePotencia;
     }
 
@@ -34,7 +35,7 @@ public class UCCI {
     }
 
     public void activarModoContingencia(){
-        // si bajo consumo, reducir velo en 40%
+        // si bajo consumo (osea horas de brazo > 1k o calculoCapacidadMaxima True), reducir velo en 40%
         if (getEstado() == "Bajo Consumo"){
             brazo.setVelocidad(brazo.getVelocidad() * 0.6);
         } 
@@ -42,6 +43,7 @@ public class UCCI {
 
     public void procesarDatosClima(){
         // lo de la api de la class ServicioClima
+        // saca temperatura y humedad, recibe la ubicacion
     }
 
     public ReporteMuestreo ejecutarMuestreo(double ph, double conductividad){

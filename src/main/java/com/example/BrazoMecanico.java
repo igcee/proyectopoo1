@@ -12,22 +12,31 @@ public class BrazoMecanico {
     }
 
     public void reducirVelocidad(double porcentaje){
+        // lo de reducir en modo de contingencia, aunque no creo que sea necesario, ya que se podria usar setVelocidad desde UCCI al usar el metodo de activarModoContingencia()
+
 
     }
 
     public void restaurarVelocidad(){
+        // si no me equivoco, esto era para lo de recuperar a velocidad original despues de la reduccion de 40% de lo de modo de contingencia
 
     }
 
     public double calcularGastoEnergetico(){
+        // Gasto(W) = (anguloExtension x 1.5) + (velocidad x 12.8)
+        // enunciado dice "Velocidad de Desplazamiento", ese era velocidad o velocidadNominal?
 
     }
 
     public ReporteMuestreo muestrear(double ph, double conductividad, double duracionHoras){
+        // el reporte q sale al finalizar la maniobra del brazo, tiene ph, conductividad, Gasto; y registra tmb fecha y hora de generacion
 
     }
 
     public boolean requiereMantenimiento(){
+        // la vrdd no estoy muy seguro sobre esto? Ya ni me acuerdo para q la ocupabamos
+        // tal vez quitar + tarde?
+
         
     }
 
