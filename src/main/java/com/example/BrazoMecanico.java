@@ -17,7 +17,7 @@ public class BrazoMecanico {
 
     public void reducirVelocidad(){
         // lo de reducir en modo de contingencia, aunque no creo que sea necesario, ya que se podria usar setVelocidad desde UCCI al usar el metodo de activarModoContingencia()
-        velocidad = velocidad *0.6;
+        velocidad = velocidad *0.4;
         
     }
 
