@@ -8,6 +8,9 @@ public class OperadorHumano {
     private String correo;
 
     public OperadorHumano(String ficha, String nombreCompleto, String correo){
+        this.ficha = ficha;
+        this.nombreCompleto = nombreCompleto;
+        this.correo = correo;
 
     }
 
@@ -35,6 +38,11 @@ public class OperadorHumano {
         this.correo = correo;
     }
 
+
+    @Override 
+    public String toString(){
+        return "OperadorHumano{ficha=" + ficha + ", nombreCompleto=" + nombreCompleto + ", correo=" + correo + "}";
+    }
 
 }
     
