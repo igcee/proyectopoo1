@@ -1,32 +1,49 @@
 package com.example;
-import java.time.LocalDate;
+import java.time.LocalDateTime; // era LocalDateTime, no LocalDate, sino no agarra hora
 
 public class ReporteMuestreo {
-    private LocalDate fechaMedicion;
+    private LocalDateTime fechaMedicion;
     private double gastoEnergetico;
     // estos 2 de aca abajo hay q ver si cambiar o no
     private double ph; 
     private double conductividad;
 
     public ReporteMuestreo(double ph, double conductividad, double gastoEnergetico){
-
+        this.ph = ph;
+        this.conductividad = conductividad;
+        this.gastoEnergetico = gastoEnergetico;
+        this.fechaMedicion = LocalDateTime.now(); // saca la fecha del momento q se usa
     }
 
     public boolean anomaliaCritica(){
         // condiciones de anomalia = ph < 5.5 o > 6.5, o conductividad < 1.2 dS/M o > 2.4 dS/M
         // cuando reporte tiene anomalia, tiene q sacar automaticamente un msj de emergencia (osea el chunche de correo)
+        // EN REALIDAD creo que UCCI deberia de enviar el correo, no ReporteMuestreo. Por cualquier cosa, si pusieramos lo de correo en ReporteMuestreo, iria aca
+        return ph > 6.5 || ph < 5.5 || conductividad < 1.2 || conductividad > 2.4;
     }
 
 
     public String resumenAnomalia(){
-        // no me acuerdo q tenia q sacar este chunche
+        String salidaResumen = "";
+        if (!anomaliaCritica()){
+            salidaResumen += "Sin anomalias, ph se encuentra en el rango optimo (" + ph + ") y la conductividad tambien (" + conductividad + ").";
+
+        }
+        if (ph > 6.5 || ph < 5.5){
+            salidaResumen += "Anomalia: ph fuera de rango = " + ph + " (rango optimo: 5.5 - 6.5) ";
+        }
+        if(conductividad > 1.2 || conductividad < 2.4){
+            salidaResumen += "Anomalia: conductividad fuera de rango = " + conductividad + "(rango optimo: 1.2 - 2.4 ds/M)";
+        }
+
+        return salidaResumen;
     }
 
-    public LocalDate getFechaMedicion() {
+    public LocalDateTime getFechaMedicion() {
         return fechaMedicion;
     }
 
-    public void setFechaMedicion(LocalDate fechaMedicion) {
+    public void setFechaMedicion(LocalDateTime fechaMedicion) {
         this.fechaMedicion = fechaMedicion;
     }
 
@@ -52,6 +69,12 @@ public class ReporteMuestreo {
 
     public void setConductividad(double conductividad) {
         this.conductividad = conductividad;
+    }
+
+    @Override
+    public String toString(){
+        return "ReporteMuestreo{ph=" + ph + ", conductividad="+ conductividad + ", gastoEnergetico=" + gastoEnergetico +", fechaMedicion=" + fechaMedicion + "}";
+
     }
 
 }
