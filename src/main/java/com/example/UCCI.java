@@ -14,6 +14,8 @@ public class UCCI {
     private BitacoraHistorica bitacora;
     private OperadorHumano operador;
 
+    private static cuentaCodigos = 1;
+
 
 
     public UCCI(String sector, int nave, String estado, double potenciaAux, double limitePotencia, boolean compensacionClimatica, String ubicacion, double velocidad, double velocidadNominal, double anguloExtension, double horasUsado) {
@@ -21,7 +23,7 @@ public class UCCI {
     // le meti las 4 variables del brazo, pq en teoria este esta pegado por lo de composicion
     this.sector = sector;
     this.nave = nave;
-    this.codigo = codigo++; // para q inc para cada obj
+    this.codigo = cuentaCodigos++; // para q inc para cada obj
     this.estado = estado;
     this.potenciaAux = potenciaAux;
     this.limitePotencia = limitePotencia;
@@ -48,12 +50,13 @@ public class UCCI {
 
     public void activarModoContingencia(){
         // si bajo consumo (osea horas de brazo > 1k o calculoCapacidadMaxima True), reducir velo en 40%
-        if (getEstado() == "Bajo Consumo"){
-            brazo.setVelocidad(brazo.reducirVelocidad());
-        } 
+
+        estado = "Bajo Consumo";
+        brazo.reducirVelocidad();
+        
     }
 
-    public void procesarDatosClima(ServicioClima servclima){
+    public String procesarDatosClima(ServicioClima servclima){
         // lo de la api de la class ServicioClima
         // saca temperatura y humedad, recibe la ubicacion
         String salidilla = "";
