@@ -25,19 +25,22 @@ public class ReporteMuestreo {
 
     public String resumenAnomalia(){
         String salidaResumen = "";
-        if (!anomaliaCritica()){
-            salidaResumen += "Sin anomalias, ph se encuentra en el rango optimo (" + ph + ") y la conductividad tambien (" + conductividad + ").";
-
-        }
+        
         if (ph > 6.5 || ph < 5.5){
             salidaResumen += "Anomalia: ph fuera de rango = " + ph + " (rango optimo: 5.5 - 6.5) ";
         }
-        if(conductividad > 1.2 || conductividad < 2.4){
+        else if(conductividad < 1.2 || conductividad > 2.4){
             salidaResumen += "Anomalia: conductividad fuera de rango = " + conductividad + "(rango optimo: 1.2 - 2.4 ds/M)";
+        }
+        else{
+            salidaResumen += "Sin anomalias, ph se encuentra en el rango optimo (" + ph + ") y la conductividad tambien (" + conductividad + ").";
+
         }
 
         return salidaResumen;
     }
+    
+    
 
     public LocalDateTime getFechaMedicion() {
         return fechaMedicion;

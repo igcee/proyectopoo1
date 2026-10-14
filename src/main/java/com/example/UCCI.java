@@ -17,7 +17,7 @@ public class UCCI {
 
 
     public UCCI(String sector, int nave, String estado, double potenciaAux, double limitePotencia, boolean compensacionClimatica, String ubicacion, double velocidad, double velocidadNominal, double anguloExtension, double horasUsado) {
-    }
+    
     // le meti las 4 variables del brazo, pq en teoria este esta pegado por lo de composicion
     this.sector = sector;
     this.nave = nave;
@@ -28,7 +28,7 @@ public class UCCI {
     this.compensacionClimatica = compensacionClimatica;
     this.ubicacion = ubicacion;
     this.brazo = new BrazoMecanico(velocidad, velocidadNominal, anguloExtension, horasUsado);
-
+}
 
     public boolean calculoCapacidadMaxima(double potenciaAux, double limitePotencia) {
         // evaluar si "suma de la potencia requerida por el brazo y sus sistemas auxiliares excede la capacidad maxima de pontencia en vatios configurada por el controlador"
@@ -49,7 +49,7 @@ public class UCCI {
     public void activarModoContingencia(){
         // si bajo consumo (osea horas de brazo > 1k o calculoCapacidadMaxima True), reducir velo en 40%
         if (getEstado() == "Bajo Consumo"){
-            brazo.setVelocidad(brazo.reducirVelocidad);
+            brazo.setVelocidad(brazo.reducirVelocidad());
         } 
     }
 
@@ -82,7 +82,7 @@ public class UCCI {
             conductividad = conductividad * 1.05;
         }
 
-        return brazo.muestrear(ph, conductividad);
+        return brazo.muestrear(ph, conductividad, duracionHoras);
         
 
         
@@ -91,7 +91,7 @@ public class UCCI {
     public void registrarReporte(ReporteMuestreo reporte, ServicioCorreo correo){
         bitacora.agregarReporte(reporte);
         if (reporte.anomaliaCritica()){
-            correo.enviarAlertaCritica(operador, reporte) // estaba pensando en tambien incluir ubicacion para enviarAlertaCritica, idk
+            correo.enviarAlertaCritica(operador, reporte); // estaba pensando en tambien incluir ubicacion para enviarAlertaCritica, idk
         }
         
     }
@@ -99,7 +99,7 @@ public class UCCI {
     public void fallaCritica(){
         // lo de simulacion de falla critica del RF6. 
         // "Forzar la destrucción/desactivación de la unidad central para verificar por consola que el brazo robótico deja de existir/responder, mientras que la bitácora y los reportes previos se conservan intactos."
-        brazo = NULL;
+        brazo = null;
         estado = "Falla Critica";
     }
 
