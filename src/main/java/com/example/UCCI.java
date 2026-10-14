@@ -73,9 +73,10 @@ public class UCCI {
         return salidilla;
     }
 
-    public ReporteMuestreo ejecutarMuestreo(double ph, double conductividad){
-        if (estado == "Falla critica"){
+    public ReporteMuestreo ejecutarMuestreo(double ph, double conductividad, double duracionHoras){
+        if (estado == "Falla critica" || brazo == null){
             //nose q hacer aca, en teoria deberia de mandar algun tipo de error o yoqsé
+            // error de estado/brazo inexistente
         }
 
         if (compensacionClimatica){
@@ -91,7 +92,7 @@ public class UCCI {
     public void registrarReporte(ReporteMuestreo reporte, ServicioCorreo correo){
         bitacora.agregarReporte(reporte);
         if (reporte.anomaliaCritica()){
-            correo.enviarAlertaCritica(operador, reporte); // estaba pensando en tambien incluir ubicacion para enviarAlertaCritica, idk
+            correo.enviarAlertaCritica(operador, reporte, ubicacion); // estaba pensando en tambien incluir ubicacion para enviarAlertaCritica, idk
         }
         
     }
