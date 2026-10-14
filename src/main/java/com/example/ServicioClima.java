@@ -7,10 +7,12 @@ public class ServicioClima {
 
     public double consultarTemperatura(String ubicacion){
         // saca de api
+        return 0.0; // para q deje compilar
     }
 
     public double obtenerHumedad(String ubicacion){
         // saca de api tambien
+        return 0.0; // para q deje compilar
     }
 
     public String getUbicacion() {

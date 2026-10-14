@@ -14,7 +14,7 @@ public class UCCI {
     private BitacoraHistorica bitacora;
     private OperadorHumano operador;
 
-    private static cuentaCodigos = 1;
+    private static int cuentaCodigos = 1;
 
 
 
@@ -95,7 +95,7 @@ public class UCCI {
     public void registrarReporte(ReporteMuestreo reporte, ServicioCorreo correo){
         bitacora.agregarReporte(reporte);
         if (reporte.anomaliaCritica()){
-            correo.enviarAlertaCritica(operador, reporte, ubicacion); // estaba pensando en tambien incluir ubicacion para enviarAlertaCritica, idk
+            correo.enviarAlertaCritica(operador, reporte); // estaba pensando en tambien incluir ubicacion para enviarAlertaCritica, idk
         }
         
     }
