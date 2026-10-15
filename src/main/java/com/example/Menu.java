@@ -59,10 +59,10 @@ public class Menu{
             try{
                 switch(eleccion){
                     case 1 -> configInicial();
-                    //case 2 -> ejecutarMuestreo();
+                    case 2 -> ejecutarMuestreo();
                     //case 3 -> sincronizarClima();
-                    //case 4 -> registrarYAnalizar();
-                    //case 5 -> verBitacora();
+                    case 4 -> registrarYAnalizar();
+                    case 5 -> verBitacora();
                     //case 6 -> simularFallaCritica(); // nombres temporales, pq habia q poner algo
                     case 7 -> {
                         salir = true;
@@ -126,5 +126,61 @@ public void configInicial(){
 
 
 }
+
+public void ejecutarMuestreo(){
+    System.out.println("Estado actual del brazo: "+ unidad.consultarDisponibilidadBrazo());
+    System.out.println("Ingrese el nivel de ph medido entre 0 y 14 (Double): "); // hay q meter verificacion  0 < entrada < 14
+    Double ph = entrada.nextDouble();
+    System.out.println("Ingrese el nivel de conductividad medida (Double): "); 
+    Double conductividad = entrada.nextDouble();
+    System.out.println("Ingrese la duracion que tomara la maniobra (Double): ");
+    Double duracion = entrada.nextDouble();
+
+    ReporteMuestreo reporte = unidad.ejecutarMuestreo(ph, conductividad, duracion);
+    System.out.println(reporte); 
+    System.out.println("Costo en W de la maniobra: " + reporte.getGastoEnergetico() + " W");
+    System.out.println("Estado actual de la unidad:" + unidad.getEstado());
+
+}
+/* 
+public void sincronizarClima(){
+    //case 3
+}
+*/
+
+public void registrarYAnalizar(){
+    System.out.println("Analisis del reporte" + reporte.resumenAnomalia());
+    if (reporte.anomaliaCritica()){
+        System.out.println("Se ha detectado una anomalia, se envia alerta al operador " + unidad.getOperador() + " a la direccion de correo "+ correo.getCorreo() );   
+    }
+    unidad.registrarReporte(reporte, correo);
+}
+
+public void verBitacora(){
+    System.out.println(" === Estado de la bitacora ===");
+    System.out.println(bitacora.generarResumen());
+    System.out.println("Porcentaje de reportes con anomalias:" + bitacora.porcentajeLecturasAnomalas() + "%");
+    ArrayList<ReporteMuestreo> reportes = bitacora.getReportes();
+    if (reportes.isEmpty()){
+        System.out.println("No hay reportes en la bitacora");
+        return;
+    }
+    else{
+
+        for (int i = 0; i< reportes.size(); i++){
+            System.out.println(i + ". "+ reportes.get(i));
+        }
+    }
+
+}
+
+
+/*
+public void simularFallaCritica(){
+
+}
+
+*/
+
 
 }
