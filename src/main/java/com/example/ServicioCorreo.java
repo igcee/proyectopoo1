@@ -4,6 +4,7 @@ package com.example;
 public class ServicioCorreo{
     private int puerto;
     private String servidorSmtp;
+    private String correo;
 
 
     public boolean enviarAlertaCritica(OperadorHumano operador, ReporteMuestreo reporte){
@@ -27,7 +28,13 @@ public class ServicioCorreo{
         this.servidorSmtp = servidorSmtp;
     }
 
-    
+    public String getCorreo(){
+        return correo;
+    }
+
+    public void setCorreo(String correo){
+        this.correo = correo;
+    }
 
 
 }
