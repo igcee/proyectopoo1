@@ -1,4 +1,4 @@
-package com.example;
+package cr.ac.tec.ecohydro.modelo;
 import java.util.ArrayList;
 
 public class BitacoraHistorica {

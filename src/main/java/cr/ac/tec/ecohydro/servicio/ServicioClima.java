@@ -1,4 +1,4 @@
-package com.example;
+package cr.ac.tec.ecohydro.servicio;
 // aca tambien los chunches de la api q hay q buscar
 
 public class ServicioClima {

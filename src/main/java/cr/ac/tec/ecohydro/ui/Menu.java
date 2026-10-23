@@ -1,8 +1,15 @@
-package com.example;
+package cr.ac.tec.ecohydro.ui;
 
 import java.util.ArrayList;
 import java.util.InputMismatchException; // hay q hacerle import a este chunche para el catch del menu
 import java.util.Scanner;
+
+import cr.ac.tec.ecohydro.modelo.BitacoraHistorica;
+import cr.ac.tec.ecohydro.modelo.OperadorHumano;
+import cr.ac.tec.ecohydro.modelo.ReporteMuestreo;
+import cr.ac.tec.ecohydro.modelo.UCCI;
+import cr.ac.tec.ecohydro.servicio.ServicioClima;
+import cr.ac.tec.ecohydro.servicio.ServicioCorreo;
 
 public class Menu{
 

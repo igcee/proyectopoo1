@@ -1,5 +1,8 @@
 // sacar los chunches de la api o lo q sea 
-package com.example;
+package cr.ac.tec.ecohydro.servicio;
+
+import cr.ac.tec.ecohydro.modelo.OperadorHumano;
+import cr.ac.tec.ecohydro.modelo.ReporteMuestreo;
 
 public class ServicioCorreo{
     private int puerto;

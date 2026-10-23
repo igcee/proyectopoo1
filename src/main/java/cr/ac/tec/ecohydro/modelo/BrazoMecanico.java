@@ -1,4 +1,4 @@
-package com.example;
+package cr.ac.tec.ecohydro.modelo;
 
 public class BrazoMecanico {
     private double velocidad;

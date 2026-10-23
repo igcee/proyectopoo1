@@ -1,4 +1,7 @@
-package com.example;
+package cr.ac.tec.ecohydro.modelo;
+
+import cr.ac.tec.ecohydro.servicio.ServicioClima;
+import cr.ac.tec.ecohydro.servicio.ServicioCorreo;
 
 public class UCCI {
     private String sector;

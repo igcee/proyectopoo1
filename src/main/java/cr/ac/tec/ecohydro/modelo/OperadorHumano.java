@@ -1,4 +1,4 @@
-package com.example;
+package cr.ac.tec.ecohydro.modelo;
 
 
 

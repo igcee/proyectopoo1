@@ -1,4 +1,4 @@
-package com.example;
+package cr.ac.tec.ecohydro.modelo;
 import java.time.LocalDateTime; // era LocalDateTime, no LocalDate, sino no agarra hora
 
 public class ReporteMuestreo {
