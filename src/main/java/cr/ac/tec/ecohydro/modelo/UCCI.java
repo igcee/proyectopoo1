@@ -45,17 +45,35 @@ public class UCCI {
         // "Si el consumo excede el límite permitido, o si las horas de uso acumuladas del brazo superan las 1,000 horas de operación continua sin mantenimiento, la unidad central debe cambiar automáticamente su estado a modo de contingencia ("Bajo Consumo / Mantenimiento Requerido")"
         // osea q solo deberia de tener if ... setEstado("Bajo Consumo"), sin el return. Igual ahi lo dejo pq es String rn, pero para tomar en cuenta dsps.
         // ---- EN REALIDAD si es String pq devuelve un "diagnostico textual"
-        if (!calculoCapacidadMaxima(potenciaAux, limitePotencia) || brazo.requiereMantenimiento()) {
-            setEstado("Bajo Consumo");
+        if (brazo == null){
+            return "Estado:" + estado+ ". No hay un brazo disponible para esta unidad, por lo que no se pueden iniciar muestreos";
         }
-        return getEstado();
+
+        if (!"Bajo Consumo / Mantenimiento Requerido".equals(estado) && !"Falla Critica".equals(estado) && (!calculoCapacidadMaxima(potenciaAux, limitePotencia) || brazo.requiereMantenimiento())){
+            activarModoContingencia();
+        }
+        
+        double dispo = limitePotencia - potenciaAux - brazo.calcularGastoEnergetico();
+        if ("Falla Critica".equals(estado)){
+            return "Estado:" +estado+ ". Potencia disponible: "+dispo+"W. Apta para iniciar muestreos: NO";
+        }
+        else{
+            return "Estado:" +estado+ ". Potencia disponible: "+dispo+"W. Apta para iniciar muestreos: SI";
+            }
+        
+        
     }
 
     public void activarModoContingencia(){
         // si bajo consumo (osea horas de brazo > 1k o calculoCapacidadMaxima True), reducir velo en 40%
-
-        estado = "Bajo Consumo";
-        brazo.reducirVelocidad();
+        if (brazo == null ||  "Bajo Consumo / Mantenimiento Requerido".equals(estado)){ // si ya estaba en modo contingencia tonces no se le toca nada
+            return;
+        }
+        else{
+            estado = "Bajo Consumo / Mantenimiento Requerido";
+            brazo.reducirVelocidad();
+        }
+       
         
     }
 
@@ -73,16 +91,17 @@ public class UCCI {
         }
         salidilla = "Clima en " + ubicacion +"= Temperatura: " +temperatura +"C, Humedad: "+humedad +"%";
         if (compensacionClimatica){
-            salidilla += "Compensacion climatica activada (+5% a conductividad)";
+            salidilla += " Compensacion climatica activada (+5% a conductividad)";
         }
 
         return salidilla;
     }
 
     public ReporteMuestreo ejecutarMuestreo(double ph, double conductividad, double duracionHoras){
-        if (estado == "Falla critica" || brazo == null){
+        if ("Falla Critica".equals(estado) || brazo == null){
             //nose q hacer aca, en teoria deberia de mandar algun tipo de error o yoqsé
             // error de estado/brazo inexistente
+            throw new IllegalStateException("No se puede ejecutar el muestreo ya que la unidad esta en Falla Critica o no tiene un brazo");
         }
 
         if (compensacionClimatica){
@@ -96,10 +115,16 @@ public class UCCI {
     }
 
     public void registrarReporte(ReporteMuestreo reporte, ServicioCorreo correo){
-        bitacora.agregarReporte(reporte);
-        if (reporte.anomaliaCritica()){
-            correo.enviarAlertaCritica(operador, reporte); // estaba pensando en tambien incluir ubicacion para enviarAlertaCritica, idk
+        if (bitacora == null){
+            throw new IllegalStateException("No hay una bitacora asociada a esta unidad");
         }
+        else{
+            bitacora.agregarReporte(reporte);
+            if (reporte.anomaliaCritica()){
+                correo.enviarAlertaCritica(operador, reporte, ubicacion); // estaba pensando en tambien incluir ubicacion para enviarAlertaCritica, idk
+            }
+        }
+        
         
     }
 
