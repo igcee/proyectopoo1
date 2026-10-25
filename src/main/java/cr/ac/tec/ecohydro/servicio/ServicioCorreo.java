@@ -66,8 +66,7 @@ public class ServicioCorreo{
             prop.put("mail.smtp.timeout", "10000");
             prop.put("mail.smtp.writetimeout", "10000");
 
-            // en toda documentacion q encontre sobre el chunche, siempre se incluia esto
-            // por cualquier cosa lo pongo para no andar con problemas de "pipipipi no compilo :c " o "no quiere mandar el msj", ya luego veo si lo quito o lo dejo/modifico 
+            // si se ocupaba, sino el jakarta no tiene como autenficiar las credenciales
             Session session = Session.getInstance(prop, new Authenticator() {
                 @Override
                 protected PasswordAuthentication getPasswordAuthentication() {
@@ -78,10 +77,17 @@ public class ServicioCorreo{
             //System.out.println("test sirve 5");
             });
             try{
-                //DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss"); //DateTimeFormatter es para formatear fechas y horas, como de LocalDate x ejemplo. Es para cuando quiera meter hora y fecha en cuerpo de corrreo
+                DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss"); //DateTimeFormatter es para formatear fechas y horas, como de LocalDate x ejemplo. Es para cuando quiera meter hora y fecha en cuerpo de corrreo
                 String asunto = ("ALERTA CRITICA: anomalia quimica en " + ubicacion);
-                String cuerpo = "Estimado/a/e " + operador.getNombreCompleto() + ", se ha detectado una anomalía crítica en el sistema. Ubicación de la unidad: " + ubicacion +  "Por favor, tome las medidas correspondientes de inmediato o sufra las consecuencias del sistema corporativo.";
-                // ahorita hago q el correo incluya info como ph, conduc, fecha y hora... etc
+                String cuerpo = "Estimado/a/e " + operador.getNombreCompleto() + ",\n\n"
+                              + "Se ha detectado una anomalia critica en el sistema,\n"
+                              + "Ubicacion de la unidad: " + ubicacion +  "\n"
+                              + "Fecha y hora del incidente: " + reporte.getFechaMedicion().format(formato) + "\n"
+                              + "Ph medido: " + reporte.getPh() + "\n"
+                              + "Conductividad medida: " + reporte.getConductividad() + " dS/m" + "\n\n"
+                              + "Detalle: " + reporte.resumenAnomalia() + "\n\n"
+                              + "Por favor, tome las medidas correspondientes de inmediato o sufra las consecuencias del sistema corporativo.";
+
                 MimeMessage msj = new MimeMessage(session);
                 msj.setFrom(new InternetAddress(this.correo));
                 msj.setRecipient(Message.RecipientType.TO, new InternetAddress(operador.getCorreo()));
