@@ -81,15 +81,19 @@ public class UCCI {
         // lo de la api de la class ServicioClima
         // saca temperatura y humedad, recibe la ubicacion
         String salidilla = "";
-        double temperatura = servclima.consultarTemperatura(ubicacion);
-        double humedad = servclima.obtenerHumedad(ubicacion);
+        double[] clima = servclima.consultarClima(ubicacion);
+        if (clima == null){
+            return "No se pudo consultar el clima, verifique la ubicacion o el estado de OpenMeteo y Geocoding API";
+        }
+        double temperatura = clima[0];
+        double humedad = clima[1];
         if (temperatura > 32){
             compensacionClimatica = true;
         }
         else{
             compensacionClimatica = false;
         }
-        salidilla = "Clima en " + ubicacion +"= Temperatura: " +temperatura +"C, Humedad: "+humedad +"%";
+        salidilla = "Clima en " + ubicacion +"= Temperatura: " +temperatura +"C, Humedad: "+humedad + "%, Fuentes: OpenMeteo y Geocoding API";
         if (compensacionClimatica){
             salidilla += " Compensacion climatica activada (+5% a conductividad)";
         }

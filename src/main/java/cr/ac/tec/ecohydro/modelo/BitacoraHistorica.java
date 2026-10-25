@@ -18,6 +18,11 @@ public class BitacoraHistorica {
     public double porcentajeLecturasAnomalas(){
         // evalua totalidad de reportes, determina porcentaje de anomalas
         int anom = 0;
+
+        if (reportes.size() == 0){
+            return 0.0;
+        }
+
         for (ReporteMuestreo reportito:reportes){ // saca cantidad de reportes con anomalias
             if (reportito.anomaliaCritica()){
                 anom ++;
