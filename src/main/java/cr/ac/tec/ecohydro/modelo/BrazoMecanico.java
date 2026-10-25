@@ -8,10 +8,10 @@ public class BrazoMecanico {
 
 
     public BrazoMecanico(double velocidad, double velocidadNominal, double anguloExtension, double horasUsado){
-        this.velocidad = velocidad;
-        this.velocidadNominal = velocidadNominal;
-        this.anguloExtension = anguloExtension;
-        this.horasUsado = horasUsado;
+        setVelocidad(velocidad);
+        setVelocidadNominal(velocidadNominal);
+        setAnguloExtension(anguloExtension);
+        setHorasUsado(horasUsado);
 
     }
 
@@ -57,6 +57,9 @@ public class BrazoMecanico {
 
 
     public void setVelocidad(double velocidad) {
+        if(!(velocidad >=0)){
+            throw new IllegalArgumentException("La velocidad no puede ser negativa.");
+        }
         this.velocidad = velocidad;
     }
 
@@ -67,6 +70,9 @@ public class BrazoMecanico {
 
 
     public void setVelocidadNominal(double velocidadNominal) {
+        if(!(velocidadNominal >0)){
+            throw new IllegalArgumentException("La velocidad nominal no puede ser negativa.");
+        }
         this.velocidadNominal = velocidadNominal;
     }
 
@@ -77,6 +83,9 @@ public class BrazoMecanico {
 
 
     public void setAnguloExtension(double anguloExtension) {
+        if(!(anguloExtension >=0 && anguloExtension <= 180)){
+            throw new IllegalArgumentException("El angulo de extension debe estar entre 0 y 180 grados.");
+        }
         this.anguloExtension = anguloExtension;
     }
 
@@ -87,6 +96,9 @@ public class BrazoMecanico {
 
 
     public void setHorasUsado(double horasUsado) {
+        if(!(horasUsado >=0)){
+            throw new IllegalArgumentException("Las horas de uso no pueden ser negativas.");
+        }
         this.horasUsado = horasUsado;
     }
 

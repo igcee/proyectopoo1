@@ -12,6 +12,9 @@ public class BitacoraHistorica {
 
     public void agregarReporte(ReporteMuestreo reportito){
         // bitacora mantiene coleccion ordenada de todos los reportes
+        if (reportito == null) {
+            throw new IllegalArgumentException("No se puede registrar un reporte nulo en la bitacora.");
+        }
         reportes.add(reportito);
     }
 
@@ -67,11 +70,12 @@ public class BitacoraHistorica {
     }
 
 
-    /* 
     public void setReportes(ArrayList<ReporteMuestreo> reportes) {
-        this.reportes = reportes;
+        if (reportes == null) {
+            throw new IllegalArgumentException("La lista de reportes no puede ser nula.");
+        }
+        this.reportes = new ArrayList<>(reportes);
     }
-    */
 
     // por lo q he investigado, en teoria los ArrayList no ocupan setters (?). Igual lo dejo aca comentado por lo de q todo ocupa getters y setters y noseque
     

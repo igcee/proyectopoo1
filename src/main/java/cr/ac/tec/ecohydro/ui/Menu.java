@@ -127,7 +127,7 @@ public class Menu{
                 switch(eleccion){
                     case 1 -> configInicial();
                     case 2 -> ejecutarMuestreo();
-                    //case 3 -> sincronizarClima();
+                    case 3 -> sincronizarClima();
                     case 4 -> registrarYAnalizar();
                     case 5 -> verBitacora();
                     case 6 -> simularFallaCritica();
@@ -156,7 +156,7 @@ public void configInicial(){
     int nave = leerEntero("Ingrese el numero de nave: ", 1, 999);
     double potenciaAux = leerDecimal("Ingrese la potencia de los sistemas auxiliares (W): ", 0, Double.MAX_VALUE);
     double limitePotencia = leerDecimal("Ingrese el limite de potencia electrica soportada (W): ", 1, Double.MAX_VALUE);
-    String ubicacion = leerTexto("Ingrese la ubicacion geografica de la unidad (ejemplo: Cartago): ");
+    String ubicacion = leerTexto("Ingrese la ubicacion geografica de la unidad: ");
 
     System.out.println();
     System.out.println(" === Datos para el brazo robotico ===");
@@ -197,11 +197,12 @@ public void ejecutarMuestreo(){
     System.out.println("Estado actual de la unidad:" + unidad.getEstado());
 
 }
-/* 
+ 
 public void sincronizarClima(){
-    //case 3
+    exigirUnidad();
+    System.out.println(unidad.procesarDatosClima(clima));
 }
-*/
+
 
 public void registrarYAnalizar(){
     exigirUnidad();

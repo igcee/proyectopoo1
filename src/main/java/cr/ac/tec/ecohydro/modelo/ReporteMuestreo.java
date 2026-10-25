@@ -9,9 +9,9 @@ public class ReporteMuestreo {
     private double conductividad;
 
     public ReporteMuestreo(double ph, double conductividad, double gastoEnergetico){
-        this.ph = ph;
-        this.conductividad = conductividad;
-        this.gastoEnergetico = gastoEnergetico;
+        setPh(ph);
+        setConductividad(conductividad);
+        setGastoEnergetico(gastoEnergetico);
         this.fechaMedicion = LocalDateTime.now(); // saca la fecha del momento q se usa
     }
 
@@ -47,6 +47,9 @@ public class ReporteMuestreo {
     }
 
     public void setFechaMedicion(LocalDateTime fechaMedicion) {
+        if (fechaMedicion == null) {
+            throw new IllegalArgumentException("La fecha de medicion no puede ser nula.");
+        }
         this.fechaMedicion = fechaMedicion;
     }
 
@@ -55,6 +58,9 @@ public class ReporteMuestreo {
     }
 
     public void setGastoEnergetico(double gastoEnergetico){
+        if (!(gastoEnergetico >= 0)) {
+            throw new IllegalArgumentException("El gasto energetico no puede ser negativo.");
+        }
         this.gastoEnergetico = gastoEnergetico;
     }
 
@@ -63,6 +69,9 @@ public class ReporteMuestreo {
     }
 
     public void setPh(double ph) {
+        if (!(ph >= 0 && ph <= 14)) {
+            throw new IllegalArgumentException("El pH debe estar entre 0 y 14.");
+        }
         this.ph = ph;
     }
 
@@ -71,6 +80,9 @@ public class ReporteMuestreo {
     }
 
     public void setConductividad(double conductividad) {
+        if (!(conductividad >= 0)) {
+            throw new IllegalArgumentException("La conductividad no puede ser negativa.");
+        }
         this.conductividad = conductividad;
     }
 
