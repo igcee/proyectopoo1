@@ -76,6 +76,16 @@ public class Menu{
         }
     }
 
+    private static String leerCorreo(String mensaje) {
+        while (true) {
+            String texto = leerTexto(mensaje);
+            if (texto.matches("^[\\w.+-]+@[\\w-]+(\\.[\\w-]+)+$")) {
+                return texto;
+            }
+            System.out.println("ERROR: el correo no tiene un formato valido.");
+        }
+    }
+
     public void mostrarMenu(){
         System.out.println(" ==== Test menu bien bonito :) ==== ");
         if (unidad == null){
@@ -158,7 +168,7 @@ public void configInicial(){
     System.out.println(" === Datos para el operador humano responsable de esta unidad ===");
     String ficha = leerTexto("Ingrese la ficha de empleado: ");
     String nombre = leerTexto("Ingrese el nombre completo de la persona: ");
-    String correo = leerTexto("Ingrese el correo del operador: ");
+    String correo = leerCorreo("Ingrese el correo del operador: ");
 
     unidad = new UCCI(sector, nave, "Activo", potenciaAux, limitePotencia, false, ubicacion, velocidadNominal, velocidadNominal, angulo, horas); // el false es lo de compensacion climatica
     unidad.setBitacora(bitacora); //agregacion
