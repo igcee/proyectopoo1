@@ -9,7 +9,7 @@ public class Main{
 
         ServicioClima clima = new ServicioClima(); // "POR LA GRAN PUTA, DEJENME TRABAJAR" 
         // LOL YA ESTA XD
-        ServicioCorreo correo = new ServicioCorreo(2525, "sandbox.smtp.mailtrap.io", "smtp@mailtrap.io", "c875893e4343119ca6be592f282c8455", "iangabrielcastroesquivel@gmail.com" ); // ese correo no obviamente. ESTO SIGUE SIENDO DE TEST, ES SOLO PARA Q COMPILE
+        ServicioCorreo correo = new ServicioCorreo(2525, "sandbox.smtp.mailtrap.io", "927d0a66b95462", "5326a55ff34d8c", "alertas@ecohydro.com" ); // le puse q de remitente sea uno inventado, es solo para q se muestre de "FROM"
 
         Menu test = new Menu(clima,correo);
         test.inicio();
