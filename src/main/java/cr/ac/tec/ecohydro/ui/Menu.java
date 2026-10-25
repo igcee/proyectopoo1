@@ -139,34 +139,23 @@ public void configInicial(){
     }
 
     System.out.println(" === Datos para una nueva Unidad Central de Control Industrial ===");
-    System.out.println("Ingrese el sector (String): ");
-    String sector = entrada.next();
-    System.out.println("Ingrese el numero de nave (Int): ");
-    int nave = entrada.nextInt();
-    System.out.println("Ingrese la potencia de los sistemas auxiliares (Double): ");
-    double potenciaAux = entrada.nextDouble(); // nextDouble es lo mismo de nextInt pero para los doubles
-    System.out.println("Ingrese el limite de potencia electrica soportada (Double): ");
-    double limitePotencia = entrada.nextDouble();
-    System.out.println("Ingrese la ubicacion geografica de la unidad (String): ");
-    String ubicacion = entrada.next();
+    String sector = leerTexto("Ingrese el sector (ejemplo: Sector A): ");
+    int nave = leerEntero("Ingrese el numero de nave: ", 1, 999);
+    double potenciaAux = leerDecimal("Ingrese la potencia de los sistemas auxiliares (W): ", 0, Double.MAX_VALUE);
+    double limitePotencia = leerDecimal("Ingrese el limite de potencia electrica soportada (W): ", 1, Double.MAX_VALUE);
+    String ubicacion = leerTexto("Ingrese la ubicacion geografica de la unidad (ejemplo: Cartago): ");
 
     System.out.println();
     System.out.println(" === Datos para el brazo robotico ===");
-    System.out.println("Ingrese la velocidad nominal (Double): ");
-    double velocidadNominal = entrada.nextDouble();
-    System.out.println("Ingrese el angulo de extension (Double): ");
-    double angulo = entrada.nextDouble();
-    System.out.println("Ingrese la cantidad de horas acumuladas (Double): ");
-    double horas = entrada.nextDouble();
+    double velocidadNominal = leerDecimal("Ingrese la velocidad nominal: ", 0.1, Double.MAX_VALUE);
+    double angulo = leerDecimal("Ingrese el angulo de extension (0 a 180): ", 0, 180);
+    double horas = leerDecimal("Ingrese la cantidad de horas acumuladas: ", 0, Double.MAX_VALUE);
 
     System.out.println();
     System.out.println(" === Datos para el operador humano responsable de esta unidad ===");
-    System.out.println("Ingrese la ficha (String): ");
-    String ficha = entrada.next();
-    System.out.println("Ingrese el nombre completo de la persona (String): ");
-    String nombre = entrada.next();
-    System.out.println("Ingrese el correo del operador (String): ");
-    String correo = entrada.next();
+    String ficha = leerTexto("Ingrese la ficha de empleado: ");
+    String nombre = leerTexto("Ingrese el nombre completo de la persona: ");
+    String correo = leerTexto("Ingrese el correo del operador: ");
 
     unidad = new UCCI(sector, nave, "Activo", potenciaAux, limitePotencia, false, ubicacion, velocidadNominal, velocidadNominal, angulo, horas); // el false es lo de compensacion climatica
     unidad.setBitacora(bitacora); //agregacion
