@@ -120,7 +120,7 @@ public class Menu{
                     //case 3 -> sincronizarClima();
                     case 4 -> registrarYAnalizar();
                     case 5 -> verBitacora();
-                    //case 6 -> simularFallaCritica(); // nombres temporales, pq habia q poner algo
+                    case 6 -> simularFallaCritica();
                     case 7 -> {
                         salir = true;
                         System.out.println("Saliendo del programa, chao!");
@@ -172,6 +172,10 @@ public void configInicial(){
 
 public void ejecutarMuestreo(){
     exigirUnidad();
+    if (unidad.getBrazo() == null) {
+        throw new IllegalStateException("No hay un brazo mecanico disponible para esta unidad. La unidad esta en falla critica.");
+    }
+
     System.out.println("Estado actual del brazo: "+ unidad.consultarDisponibilidadBrazo());
     double ph = leerDecimal("Ingrese el nivel de pH medido (0 a 14): ", 0, 14);
     double conductividad = leerDecimal("Ingrese la conductividad medida en dS/m (0 a 20): ", 0, 20);
@@ -194,7 +198,7 @@ public void registrarYAnalizar(){
     if (reporte == null){
         throw new IllegalStateException("No hay un reporte de muestreo disponible. Por favor, ejecute un ciclo de muestreo antes de registrar y analizar.");
     }
-    
+
     System.out.println("Analisis del reporte" + reporte.resumenAnomalia());
     if (reporte.anomaliaCritica()){
         System.out.println("Se ha detectado una anomalia, se envia alerta al operador " + unidad.getOperador() + " a la direccion de correo "+ correo.getCorreo() );   
@@ -221,12 +225,24 @@ public void verBitacora(){
 }
 
 
-/*
-public void simularFallaCritica(){
+   public void simularFallaCritica(){
+       exigirUnidad();
+       if (unidad.getBrazo() == null) {
+           throw new IllegalStateException("La unidad ya se encuentra en falla critica.");
+       }
 
-}
+       System.out.println(" === Simulacion de falla critica ===");
+       System.out.println("ANTES de la falla:");
+       System.out.println("  Brazo existe: " + (unidad.getBrazo() != null));
+       System.out.println("  Reportes en la bitacora: " + bitacora.getReportes().size());
 
-*/
+       unidad.fallaCritica();
+
+       System.out.println("DESPUES de la falla:");
+       System.out.println("  Estado de la unidad: " + unidad.getEstado());
+       System.out.println("  Brazo existe: " + (unidad.getBrazo() != null));
+       System.out.println("  Reportes en la bitacora: " + bitacora.getReportes().size() + " (siguen intactos)");
+   }
 
 
 }
