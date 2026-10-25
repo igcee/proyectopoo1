@@ -29,6 +29,53 @@ public class Menu{
         this.correo = correo;
     }
 
+    //lee un entero dentro de un rango
+    private static int leerEntero(String mensaje, int min, int max) {
+        while (true) {
+            System.out.print(mensaje);
+            String texto = entrada.nextLine().trim();
+            try {
+                int valor = Integer.parseInt(texto);
+                if (valor < min || valor > max) {
+                    System.out.println("ERROR: el valor debe estar entre " + min + " y " + max + ".");
+                } else {
+                    return valor;
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("ERROR: debe ingresar un numero entero.");
+            }
+        }
+    }
+
+    //lee un decimal dentro de un rango
+    private static double leerDecimal(String mensaje, double min, double max) {
+        while (true) {
+            System.out.print(mensaje);
+            String texto = entrada.nextLine().trim();
+            try {
+                double valor = Double.parseDouble(texto);
+                if (!(valor >= min && valor <= max)) {
+                    System.out.println("ERROR: el valor debe estar entre " + min + " y " + max + ".");
+                } else {
+                    return valor;
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("ERROR: debe ingresar un numero (use punto decimal, ejemplo 6.5).");
+            }
+        }
+    }
+
+    //lee un texto completo 
+    private static String leerTexto(String mensaje) {
+        while (true) {
+            System.out.print(mensaje);
+            String texto = entrada.nextLine().trim();
+            if (!texto.isEmpty()) {
+                return texto;
+            }
+            System.out.println("ERROR: este dato no puede quedar vacio.");
+        }
+    }
 
     public void mostrarMenu(){
         System.out.println(" ==== Test menu bien bonito :) ==== ");
@@ -49,7 +96,7 @@ public class Menu{
         System.out.println("5. Ver estado de bitacora e historial"); // mostrar "estadisticas acomuladas" (???) y % de anomalias
         System.out.println("6. Simulacion de falla critica"); // destruccion de UCCI para verificar q brazo deja de existir, mientras q bitacora y reportes quedan intactos
         System.out.println("7. Salir");
-        System.out.println("Seleccione una opcion: ");
+        //System.out.println("Seleccione una opcion: ");
 
 
     }
@@ -57,12 +104,11 @@ public class Menu{
 
 
     public void inicio(){
-        int eleccion = 0;
         boolean salir = false;
-        while (salir == false){
+        while (!salir){
             mostrarMenu();
-            eleccion = entrada.nextInt();
-            // nextInt sirve para leer int de usuario, es como int(input())
+            int eleccion =leerEntero("Seleccione una opcion: ",1,7);
+            //para que valida solo numeros del 1 al 7 y yap
             try{
                 switch(eleccion){
                     case 1 -> configInicial();
@@ -75,9 +121,7 @@ public class Menu{
                         salir = true;
                         System.out.println("Saliendo del programa, chao!");
                     }
-                    default -> System.out.println("Opcion invalida, solo se admiten numeros entre 1 y 7");
                 }
-
             }
             catch (InputMismatchException e){ // InputMismatchException es para cuando se espera int pero se introduce txt
                 System.out.println("ERROR: el programa no admite esa entrada, solo se admiten numeros entre 1 y 7");
@@ -95,34 +139,23 @@ public void configInicial(){
     }
 
     System.out.println(" === Datos para una nueva Unidad Central de Control Industrial ===");
-    System.out.println("Ingrese el sector (String): ");
-    String sector = entrada.next();
-    System.out.println("Ingrese el numero de nave (Int): ");
-    int nave = entrada.nextInt();
-    System.out.println("Ingrese la potencia de los sistemas auxiliares (Double): ");
-    double potenciaAux = entrada.nextDouble(); // nextDouble es lo mismo de nextInt pero para los doubles
-    System.out.println("Ingrese el limite de potencia electrica soportada (Double): ");
-    double limitePotencia = entrada.nextDouble();
-    System.out.println("Ingrese la ubicacion geografica de la unidad (String): ");
-    String ubicacion = entrada.next();
+    String sector = leerTexto("Ingrese el sector (ejemplo: Sector A): ");
+    int nave = leerEntero("Ingrese el numero de nave: ", 1, 999);
+    double potenciaAux = leerDecimal("Ingrese la potencia de los sistemas auxiliares (W): ", 0, Double.MAX_VALUE);
+    double limitePotencia = leerDecimal("Ingrese el limite de potencia electrica soportada (W): ", 1, Double.MAX_VALUE);
+    String ubicacion = leerTexto("Ingrese la ubicacion geografica de la unidad (ejemplo: Cartago): ");
 
     System.out.println();
     System.out.println(" === Datos para el brazo robotico ===");
-    System.out.println("Ingrese la velocidad nominal (Double): ");
-    double velocidadNominal = entrada.nextDouble();
-    System.out.println("Ingrese el angulo de extension (Double): ");
-    double angulo = entrada.nextDouble();
-    System.out.println("Ingrese la cantidad de horas acumuladas (Double): ");
-    double horas = entrada.nextDouble();
+    double velocidadNominal = leerDecimal("Ingrese la velocidad nominal: ", 0.1, Double.MAX_VALUE);
+    double angulo = leerDecimal("Ingrese el angulo de extension (0 a 180): ", 0, 180);
+    double horas = leerDecimal("Ingrese la cantidad de horas acumuladas: ", 0, Double.MAX_VALUE);
 
     System.out.println();
     System.out.println(" === Datos para el operador humano responsable de esta unidad ===");
-    System.out.println("Ingrese la ficha (String): ");
-    String ficha = entrada.next();
-    System.out.println("Ingrese el nombre completo de la persona (String): ");
-    String nombre = entrada.next();
-    System.out.println("Ingrese el correo del operador (String): ");
-    String correo = entrada.next();
+    String ficha = leerTexto("Ingrese la ficha de empleado: ");
+    String nombre = leerTexto("Ingrese el nombre completo de la persona: ");
+    String correo = leerTexto("Ingrese el correo del operador: ");
 
     unidad = new UCCI(sector, nave, "Activo", potenciaAux, limitePotencia, false, ubicacion, velocidadNominal, velocidadNominal, angulo, horas); // el false es lo de compensacion climatica
     unidad.setBitacora(bitacora); //agregacion
