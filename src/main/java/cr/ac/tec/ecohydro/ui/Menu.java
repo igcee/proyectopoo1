@@ -1,7 +1,6 @@
 package cr.ac.tec.ecohydro.ui;
 
 import java.util.ArrayList;
-import java.util.InputMismatchException; // hay q hacerle import a este chunche para el catch del menu
 import java.util.Scanner;
 
 import cr.ac.tec.ecohydro.modelo.BitacoraHistorica;
@@ -100,7 +99,12 @@ public class Menu{
 
 
     }
-
+    //error si no existe unidad
+    private void exigirUnidad() {
+        if (unidad == null) {
+            throw new IllegalStateException("No existe una unidad configurada. Por favor, configure una unidad antes de continuar.");
+        }
+    }
 
 
     public void inicio(){
@@ -123,10 +127,9 @@ public class Menu{
                     }
                 }
             }
-            catch (InputMismatchException e){ // InputMismatchException es para cuando se espera int pero se introduce txt
-                System.out.println("ERROR: el programa no admite esa entrada, solo se admiten numeros entre 1 y 7");
+            catch (IllegalStateException e){
+                System.out.println("ERROR: " + e.getMessage());
             } 
-            // aca iria un catch(IllegalStateException e), para cuando se intenta cualquier opcion que no sea la 1 cuando no existe una unidad
     }
 }
 
@@ -168,15 +171,13 @@ public void configInicial(){
 }
 
 public void ejecutarMuestreo(){
+    exigirUnidad();
     System.out.println("Estado actual del brazo: "+ unidad.consultarDisponibilidadBrazo());
-    System.out.println("Ingrese el nivel de ph medido entre 0 y 14 (Double): "); // hay q meter verificacion  0 < entrada < 14
-    Double ph = entrada.nextDouble();
-    System.out.println("Ingrese el nivel de conductividad medida (Double): "); 
-    Double conductividad = entrada.nextDouble();
-    System.out.println("Ingrese la duracion que tomara la maniobra (Double): ");
-    Double duracion = entrada.nextDouble();
+    double ph = leerDecimal("Ingrese el nivel de pH medido (0 a 14): ", 0, 14);
+    double conductividad = leerDecimal("Ingrese la conductividad medida en dS/m (0 a 20): ", 0, 20);
+    double duracion = leerDecimal("Ingrese la duracion de la maniobra en horas: ", 0.01, Double.MAX_VALUE);
 
-    ReporteMuestreo reporte = unidad.ejecutarMuestreo(ph, conductividad, duracion);
+    reporte = unidad.ejecutarMuestreo(ph, conductividad, duracion);
     System.out.println(reporte); 
     System.out.println("Costo en W de la maniobra: " + reporte.getGastoEnergetico() + " W");
     System.out.println("Estado actual de la unidad:" + unidad.getEstado());
@@ -189,6 +190,11 @@ public void sincronizarClima(){
 */
 
 public void registrarYAnalizar(){
+    exigirUnidad();
+    if (reporte == null){
+        throw new IllegalStateException("No hay un reporte de muestreo disponible. Por favor, ejecute un ciclo de muestreo antes de registrar y analizar.");
+    }
+    
     System.out.println("Analisis del reporte" + reporte.resumenAnomalia());
     if (reporte.anomaliaCritica()){
         System.out.println("Se ha detectado una anomalia, se envia alerta al operador " + unidad.getOperador() + " a la direccion de correo "+ correo.getCorreo() );   
