@@ -29,6 +29,53 @@ public class Menu{
         this.correo = correo;
     }
 
+    //lee un entero dentro de un rango
+    private static int leerEntero(String mensaje, int min, int max) {
+        while (true) {
+            System.out.print(mensaje);
+            String texto = entrada.nextLine().trim();
+            try {
+                int valor = Integer.parseInt(texto);
+                if (valor < min || valor > max) {
+                    System.out.println("ERROR: el valor debe estar entre " + min + " y " + max + ".");
+                } else {
+                    return valor;
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("ERROR: debe ingresar un numero entero.");
+            }
+        }
+    }
+
+    //lee un decimal dentro de un rango
+    private static double leerDecimal(String mensaje, double min, double max) {
+        while (true) {
+            System.out.print(mensaje);
+            String texto = entrada.nextLine().trim();
+            try {
+                double valor = Double.parseDouble(texto);
+                if (!(valor >= min && valor <= max)) {
+                    System.out.println("ERROR: el valor debe estar entre " + min + " y " + max + ".");
+                } else {
+                    return valor;
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("ERROR: debe ingresar un numero (use punto decimal, ejemplo 6.5).");
+            }
+        }
+    }
+
+    //lee un texto completo 
+    private static String leerTexto(String mensaje) {
+        while (true) {
+            System.out.print(mensaje);
+            String texto = entrada.nextLine().trim();
+            if (!texto.isEmpty()) {
+                return texto;
+            }
+            System.out.println("ERROR: este dato no puede quedar vacio.");
+        }
+    }
 
     public void mostrarMenu(){
         System.out.println(" ==== Test menu bien bonito :) ==== ");
@@ -49,7 +96,7 @@ public class Menu{
         System.out.println("5. Ver estado de bitacora e historial"); // mostrar "estadisticas acomuladas" (???) y % de anomalias
         System.out.println("6. Simulacion de falla critica"); // destruccion de UCCI para verificar q brazo deja de existir, mientras q bitacora y reportes quedan intactos
         System.out.println("7. Salir");
-        System.out.println("Seleccione una opcion: ");
+        //System.out.println("Seleccione una opcion: ");
 
 
     }
@@ -57,12 +104,11 @@ public class Menu{
 
 
     public void inicio(){
-        int eleccion = 0;
         boolean salir = false;
-        while (salir == false){
+        while (!salir){
             mostrarMenu();
-            eleccion = entrada.nextInt();
-            // nextInt sirve para leer int de usuario, es como int(input())
+            int eleccion =leerEntero("Seleccione una opcion: ",1,7);
+            //para que valida solo numeros del 1 al 7 y yap
             try{
                 switch(eleccion){
                     case 1 -> configInicial();
@@ -75,9 +121,7 @@ public class Menu{
                         salir = true;
                         System.out.println("Saliendo del programa, chao!");
                     }
-                    default -> System.out.println("Opcion invalida, solo se admiten numeros entre 1 y 7");
                 }
-
             }
             catch (InputMismatchException e){ // InputMismatchException es para cuando se espera int pero se introduce txt
                 System.out.println("ERROR: el programa no admite esa entrada, solo se admiten numeros entre 1 y 7");
