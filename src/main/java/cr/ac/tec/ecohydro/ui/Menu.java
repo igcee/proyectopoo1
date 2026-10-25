@@ -212,27 +212,23 @@ public void registrarYAnalizar(){
 
     System.out.println("Analisis del reporte" + reporte.resumenAnomalia());
     if (reporte.anomaliaCritica()){
-        System.out.println("Se ha detectado una anomalia, se envia alerta al operador " + unidad.getOperador() + " a la direccion de correo "+ correo.getCorreo() );   
+        System.out.println("Se ha detectado una anomalia, se envia alerta al operador " + unidad.getOperador().getNombreCompleto() + " a la direccion de correo "+ unidad.getOperador().getCorreo() );   
     }
     unidad.registrarReporte(reporte, correo);
 }
 
 public void verBitacora(){
     System.out.println(" === Estado de la bitacora ===");
-    System.out.println(bitacora.generarResumen());
-    System.out.println("Porcentaje de reportes con anomalias:" + bitacora.porcentajeLecturasAnomalas() + "%");
     ArrayList<ReporteMuestreo> reportes = bitacora.getReportes();
     if (reportes.isEmpty()){
         System.out.println("No hay reportes en la bitacora");
         return;
     }
-    else{
-
-        for (int i = 0; i< reportes.size(); i++){
-            System.out.println(i + ". "+ reportes.get(i));
-        }
+    System.out.println(bitacora.generarResumen());
+    System.out.println("Porcentaje de reportes con anomalias: " + bitacora.porcentajeLecturasAnomalas() + "%");
+    for (int i = 0; i < reportes.size(); i++){
+        System.out.println(i + ". " + reportes.get(i));
     }
-
 }
 
 
