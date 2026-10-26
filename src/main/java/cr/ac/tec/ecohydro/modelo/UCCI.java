@@ -24,14 +24,14 @@ public class UCCI {
     public UCCI(String sector, int nave, String estado, double potenciaAux, double limitePotencia, boolean compensacionClimatica, String ubicacion, double velocidad, double velocidadNominal, double anguloExtension, double horasUsado) {
     
     // le meti las 4 variables del brazo, pq en teoria este esta pegado por lo de composicion
-    this.sector = sector;
-    this.nave = nave;
+    setSector(sector);
+    setNave(nave);
     this.codigo = cuentaCodigos++; // para q inc para cada obj
-    this.estado = estado;
-    this.potenciaAux = potenciaAux;
-    this.limitePotencia = limitePotencia;
+    setEstado(estado);
+    setPotenciaAux(potenciaAux);
+    setLimitePotencia(limitePotencia);
     this.compensacionClimatica = compensacionClimatica;
-    this.ubicacion = ubicacion;
+    setUbicacion(ubicacion);
     this.brazo = new BrazoMecanico(velocidad, velocidadNominal, anguloExtension, horasUsado);
 }
 
@@ -148,7 +148,10 @@ public class UCCI {
     }
 
     public void setSector(String sector) {
-        this.sector = sector;
+        if (sector == null || sector.trim().isEmpty()) {
+            throw new IllegalArgumentException("El sector no puede estar vacio.");
+        }
+        this.sector = sector.trim();
     }
 
     public int getNave() {
@@ -156,6 +159,9 @@ public class UCCI {
     }
 
     public void setNave(int nave) {
+        if (nave < 1) {
+            throw new IllegalArgumentException("El numero de nave debe ser mayor o igual a 1.");
+        }
         this.nave = nave;
     }
 
@@ -164,6 +170,9 @@ public class UCCI {
     }
 
     public void setCodigo(int codigo) {
+        if (codigo < 1) {
+            throw new IllegalArgumentException("El codigo de la unidad debe ser mayor o igual a 1.");
+        }
         this.codigo = codigo;
     }
 
@@ -172,6 +181,11 @@ public class UCCI {
     }
 
     public void setEstado(String estado) {
+        if (!"Activo".equals(estado)
+                && !"Bajo Consumo / Mantenimiento Requerido".equals(estado)
+                && !"Falla Critica".equals(estado)) {
+            throw new IllegalArgumentException("Estado invalido. Debe ser: Activo, Bajo Consumo / Mantenimiento Requerido o Falla Critica.");
+        }
         this.estado = estado;
     }
 
@@ -180,6 +194,9 @@ public class UCCI {
     }
 
     public void setPotenciaAux(double potenciaAux) {
+        if (!(potenciaAux >= 0)) {
+            throw new IllegalArgumentException("La potencia de los sistemas auxiliares no puede ser negativa.");
+        }
         this.potenciaAux = potenciaAux;
     }
 
@@ -188,6 +205,9 @@ public class UCCI {
     }
 
     public void setLimitePotencia(double limitePotencia) {
+        if (!(limitePotencia > 0)) {
+            throw new IllegalArgumentException("El limite de potencia debe ser mayor que 0.");
+        }
         this.limitePotencia = limitePotencia;
     }
 
@@ -204,7 +224,10 @@ public class UCCI {
     }
 
     public void setUbicacion(String ubicacion) {
-        this.ubicacion = ubicacion;
+        if (ubicacion == null || ubicacion.trim().isEmpty()) {
+            throw new IllegalArgumentException("La ubicacion no puede estar vacia.");
+        }
+        this.ubicacion = ubicacion.trim();
     }
 
     public BrazoMecanico getBrazo() {
@@ -212,6 +235,9 @@ public class UCCI {
     }
 
     public void setBrazo(BrazoMecanico brazo) {
+        if (brazo == null) {
+            throw new IllegalArgumentException("La unidad necesita un brazo robotico (composicion). Para destruirlo use fallaCritica().");
+        }
         this.brazo = brazo;
     }
 
@@ -228,6 +254,9 @@ public class UCCI {
     }
 
     public void setOperador(OperadorHumano operador) {
+        if (operador == null) {
+            throw new IllegalArgumentException("La unidad debe tener un operador asignado.");
+        }
         this.operador = operador;
     }
 

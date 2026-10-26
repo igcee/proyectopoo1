@@ -137,7 +137,7 @@ public class Menu{
                     }
                 }
             }
-            catch (IllegalStateException e){
+            catch (IllegalStateException | IllegalArgumentException e){
                 System.out.println("ERROR: " + e.getMessage());
             } 
     }
