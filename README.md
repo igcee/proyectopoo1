@@ -20,10 +20,6 @@ Aplicación de consola en Java que simula el control de una unidad central de un
 
 **Desde VS Code (recomendado):** instalar la extensión *Extension Pack for Java*, abrir la carpeta del proyecto, abrir `src/main/java/cr/ac/tec/ecohydro/Main.java` y pulsar **Run**.
 
-
-/////no se muy bien si el comando para la terminal esta bien
-**Desde la terminal:** `mvn compile exec:java -Dexec.mainClass="cr.ac.tec.ecohydro.Main"`
-
 ## Estructura del proyecto
 
 Arquitectura por capas:
@@ -73,4 +69,16 @@ COMPLETAR  dónde se configuran las credenciales y cómo cambiarlas --- ian
 
 ## Pruebas
 
-COMPLETAR casos de prueba ---samuel
+Las pruebas unitarias están en `src/test/java` y se ejecutan con:
+
+mvn test
+
+Cubren:
+
+- Bitácora vacía: el porcentaje de lecturas anómalas es 0.
+- Bitácora con un reporte anómalo y uno normal: el porcentaje es 50.
+- Compensación climática: con la bandera activa, una conductividad de 2.0 pasa a 2.1; sin ella, se queda en 2.0.
+- Umbral de 32 °C: por encima se activa la compensación; en 32 °C no.
+- Consulta de clima fallida: se muestra un mensaje y no se cambia la compensación.
+
+El clima de esas pruebas no llama a Open-Meteo. Usa datos fijos para no depender de la red.
