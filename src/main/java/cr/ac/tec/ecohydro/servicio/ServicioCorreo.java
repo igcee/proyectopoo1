@@ -3,8 +3,6 @@ package cr.ac.tec.ecohydro.servicio;
 import cr.ac.tec.ecohydro.modelo.OperadorHumano;
 import cr.ac.tec.ecohydro.modelo.ReporteMuestreo;
 
-
-import java.util.ArrayList;
 import java.util.Properties;
 import java.time.format.DateTimeFormatter;
 
@@ -99,8 +97,10 @@ public class ServicioCorreo{
             }
             catch(MessagingException e){
                 // este exception es para cuando: no internet, timeout, credenciales rechazadas, mala direccion, o cuando se le antoje invnetarse nuevos errores :/
-                throw new IllegalStateException("Por alguna razon no se pudo enviar correo");
-                //return false;
+                //throw new IllegalStateException("Por alguna razon no se pudo enviar correo");
+                System.out.println("No se pudo conectar al servidor STMP encargado de los correos (problema con internet, servidor o credenciales/parametros)");
+                System.out.println("El reporte SI se guardo en bitacora, pero no se envio la alerta al correo");
+                return false;
             }
             
             

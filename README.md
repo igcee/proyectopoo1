@@ -65,7 +65,8 @@ Todas las entradas están validadas: si se escribe un dato inválido, se muestra
 
 **Correo (RF5):** se usa Jakarta Mail con SMTP sobre **Mailtrap** (sandbox de pruebas), por lo que los correos no llegan a una bandeja real, sino al buzón de pruebas de Mailtrap.
 
-COMPLETAR  dónde se configuran las credenciales y cómo cambiarlas --- ian
+Para configurar las credenciales de MailTrap, es necesario modificar el archivo src\main\resources\config.properties.
+Este contiene todos los parametros que luego son leidos en el main. 
 
 ## Pruebas
 
