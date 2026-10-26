@@ -26,9 +26,13 @@ public class ReporteMuestreo {
     public String resumenAnomalia(){
         String salidaResumen = "";
         
-        if (ph > 6.5 || ph < 5.5){
-            salidaResumen += "Anomalia: ph fuera de rango = " + ph + " (rango optimo: 5.5 - 6.5) ";
+        if ((ph > 6.5 || ph < 5.5) && (conductividad < 1.2 || conductividad > 2.4) ){
+            salidaResumen += "Anomalia: ph fuera de rango = " + ph + " (rango optimo: 5.5 - 6.5) y conductividad fuera de rango = " + conductividad+"(rango optimo: 1.2 - 2.4 ds/M)";
         }
+        else if (ph > 6.5 || ph < 5.5){
+            salidaResumen += "Anomalia: ph fuera de rango = " + ph + " (rango optimo: 5.5 - 6.5)";
+        }
+
         else if(conductividad < 1.2 || conductividad > 2.4){
             salidaResumen += "Anomalia: conductividad fuera de rango = " + conductividad + "(rango optimo: 1.2 - 2.4 ds/M)";
         }
